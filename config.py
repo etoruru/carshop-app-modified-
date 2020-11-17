@@ -1,9 +1,11 @@
+# window parameters
 icon_name = 'car.ico'
 size = (1050, 600)
 title = 'Car Shop App'
 
 path_img = 'images/'
 
+# toolbar icons 
 file_img = 'file.png'
 save_img = 'save.png'
 home_img = 'home.png'
@@ -18,5 +20,13 @@ user ='nadya'
 password = 'Myfriend_16'
 db = 'cars_db'
 
-cars_index = ['№', 'Model', 'Transmition', 'PTC', 'color', 'volume_engine', 'mileage', 'year_of_issue', 'body_type', 'price']
+# data for start page
+cars_index = ['№', 'Model', 'Transmition', 'PTC', 'color', 'volume_engine',
+			  'mileage', 'year_of_issue', 'body_type', 'price']
 cars = {}
+
+# description for aboutbox
+description = """CarSearching это автоматизированная информационная система,
+предназначенная для упрощения работы с базой данных. Возможности включают добавление, изменение, удаление элементов,
+расширенные возможности поиска и многое другое."""
+
