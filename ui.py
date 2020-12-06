@@ -1,6 +1,6 @@
 import wx
 import config
-import wx.adv
+import dialogs
 import wx.lib.mixins.listctrl
 
 catal_ind = ['№', 'Model', 'Transmition', 'PTC', 'color', 'volume_engine', 'mileage', 'year_of_issue', 'body_type', 'price']
@@ -56,6 +56,7 @@ class MyPopupMenu(wx.Menu):
         self.create_items()
 
     def create_items(self):
+        """ creates 3 menu items: cut, copy, paste """
         cut_menuitem = wx.MenuItem(self, wx.ID_CUT, 'Вырезать')
         self.Append(cut_menuitem)
         self.Bind(wx.EVT_MENU, self.cut, cut_menuitem)
@@ -85,6 +86,7 @@ class Window(wx.Frame):
                              wx.BITMAP_TYPE_ANY))
         self.SetMenuBar(self.create_menubar())
         self.create_toolbar()
+        self.disable_toolbar()
         self.status_bar = self.CreateStatusBar()
         self.SetSize(config.size)
         self.Centre()
@@ -102,6 +104,9 @@ class Window(wx.Frame):
         self.status_bar.SetStatusText('Главная')
 
     def create_panel(self, data=config.cars, data_index=config.cars_index):
+        """ creates panel, which includes a table and buttons,
+            has default arguements such as data and data_index,
+            which takes data from database """
         panel = wx.Panel(self)
 
         main_sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -126,7 +131,7 @@ class Window(wx.Frame):
         self.PopupMenu(MyPopupMenu(), e.GetPosition())
 
     def create_menubar(self):
-        '''create menu bar'''
+        '''create menu bar '''
         menubar = wx.MenuBar()
 
         file_menu = wx.Menu()
@@ -178,25 +183,41 @@ class Window(wx.Frame):
         return menubar
 
     def create_toolbar(self):
-        toolbar = self.CreateToolBar(wx.TB_HORIZONTAL | wx.TB_DOCKABLE | wx.TB_FLAT)
+        """ creates toolbar """
+        self.toolbar = self.CreateToolBar(wx.TB_HORIZONTAL | wx.TB_DOCKABLE | wx.TB_FLAT)
 
-        home_tool = toolbar.AddTool(30, 'На главную',
+        home_tool = self.toolbar.AddTool(30, 'На главную',
                                     wx.Bitmap(config.path_img + config.home_img))
-        newfile_tool = toolbar.AddTool(10, 'Создать',
+        newfile_tool = self.toolbar.AddTool(10, 'Создать',
                                        wx.Bitmap(config.path_img + config.file_img))
-        save_tool = toolbar.AddTool(20, 'Сохранить',
+        save_tool = self.toolbar.AddTool(20, 'Сохранить',
                                     wx.Bitmap(config.path_img + config.save_img))
-        print_tool = toolbar.AddTool(50, 'Печать',
+        print_tool = self.toolbar.AddTool(50, 'Печать',
                                      wx.Bitmap(config.path_img + config.print_img))
-        search_tool = toolbar.AddTool(40, 'Поиск',
+        search_tool = self.toolbar.AddTool(40, 'Поиск',
                                       wx.Bitmap(config.path_img + config.search_img))
-        toolbar.Realize()
+        self.toolbar.Realize()
 
         self.Bind(wx.EVT_TOOL, self.show_start_page, home_tool)
         self.Bind(wx.EVT_TOOL, self.create_data, newfile_tool)
         self.Bind(wx.EVT_TOOL, self.save_data, save_tool)
         self.Bind(wx.EVT_TOOL, self.print_data, print_tool)
         self.Bind(wx.EVT_TOOL, self.search, search_tool)
+
+    def disable_toolbar(self):
+        """ disables toolbar"""
+        self.toolbar.EnableTool(30, False)
+        self.toolbar.EnableTool(10, False)
+        self.toolbar.EnableTool(20, False)
+        self.toolbar.EnableTool(50, False)
+        self.toolbar.EnableTool(40, False)
+
+    def enable_toolbar(self):
+        self.toolbar.EnableTool(30, True)
+        self.toolbar.EnableTool(10, True)
+        self.toolbar.EnableTool(20, True)
+        self.toolbar.EnableTool(50, True)
+        self.toolbar.EnableTool(40, True)        
 
     def create_buttons(self):
         button_sizer = wx.GridSizer(1, 4, 5, 5)
@@ -241,42 +262,58 @@ class Window(wx.Frame):
         self.Close()
 
     def show_catalogue(self, e):
+        """ displays data from catalog """
         name_mode = 'Каталог'
         catalogue_index, catalogue = catal_ind, catal
+        self.enable_toolbar()
         self.switch_mode(catalogue_index, catalogue, name_mode)
 
     def show_orders(self, e):
+        """ displays data from orders """
         name_mode = 'Заказы'
         orders_index, orders = ord_index, ords
+        self.enable_toolbar()
         self.switch_mode(orders_index, orders, name_mode)
 
     def show_clients(self, e):
+        """ displays data from clients """
         name_mode = 'Клиенты'
         clients_index, clients = cl_index, cl
+        self.enable_toolbar()
         self.switch_mode(clients_index, clients, name_mode)
 
     def show_docs(self, e):
         pass
 
     def show_about(self, e):
-        info = wx.adv.AboutDialogInfo()
-        info.SetIcon(wx.Icon(config.path_img + config.icon_name, wx.BITMAP_TYPE_ANY))
-        info.SetName('CarSearching')
-        info.SetVersion('1.0')
-        info.SetDescription(config.description)
-        info.SetCopyright('(C) 2020 Nadezhda Shatalina')
-        info.SetWebSite('https://github.com/etoruru')
-        info.AddDeveloper('Nadezhda Shatalina')
-        info.AddDocWriter('Nadezhda Shatalina')
-        wx.adv.AboutBox(info)
+        """ dispays 'about window' """
+        dialogs.create_about_dialog()
 
     def show_start_page(self, e):
+        """ returns us to the main page """
         name_mode = 'Главная'
         self.switch_mode(config.cars_index, config.cars, name_mode)
+        self.disable_toolbar()
+        
+    def create_data(self, e):
+        if self.name_mode == 'Каталог':
+            with dialogs.MyAskDialog(None, title='Добавить машину') as dlg:
+                dlg.create_car()
+                if dlg.ShowModal() == wx.ID_OK:
+                    print('hello')
+                else:
+                    print('bye')
+                    # делает что-то после того, как была нажата кнопка ОК(сохранить)
+    
+        elif self.name_mode == 'Заказы':
+            dialogs.create_order()
+        elif self.name_mode == 'Клиенты':
+            dialogs.create_client()
+        elif self.name_mode == 'Главная':
+            pass
         
 
-    def create_data(self, e):
-        print(self.status_bar.GetStatusText())
+
 
     def print_data(self, e):
         pass
@@ -285,9 +322,12 @@ class Window(wx.Frame):
         pass
 
     def switch_mode(self, data_index, data, name_mode):
+        """ adds new data to listctrl and changes status mode,
+            takes arguements data_index: list, data: dict, name_mode: str """
         self.data_list.clear()
         self.data_list.add_data_to_listCtrl(data_index, data)
         self.status_bar.SetStatusText(name_mode)
+        self.name_mode = self.status_bar.GetStatusText()
 
 
 

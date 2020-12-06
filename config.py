@@ -25,7 +25,13 @@ cars_index = ['№', 'Model', 'Transmition', 'PTC', 'color', 'volume_engine',
 			  'mileage', 'year_of_issue', 'body_type', 'price']
 cars = {}
 
-# description for aboutbox
+# data for aboutbox
+program_name = 'CarSearching'
+version = '1.0'
+copyright = '(C) 2020 Nadezhda Shatalina'
+web_site = 'https://github.com/etoruru'
+developer = 'Nadezhda Shatalina'
+doc_writer = 'Nadezhda Shatalina'
 description = """CarSearching это автоматизированная информационная система,
 предназначенная для упрощения работы с базой данных. Возможности включают добавление, изменение, удаление элементов,
 расширенные возможности поиска и многое другое."""
