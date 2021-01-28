@@ -1,6 +1,7 @@
 import wx
 import wx.adv
 import config
+import db
 
 def create_about_dialog():
     info = wx.adv.AboutDialogInfo()
@@ -28,11 +29,11 @@ class AdditionDialog(wx.Dialog):
 
         mainbox = wx.GridBagSizer(4, 4)
 
-        color_name_label = wx.StaticText(panel, label='Введите название:')
-        mainbox.Add(color_name_label, pos=(0, 0), flag=wx.TOP | wx.LEFT | wx.BOTTOM, border=15)
+        label = wx.StaticText(panel, label='Введите название:')
+        mainbox.Add(label, pos=(0, 0), flag=wx.TOP | wx.LEFT | wx.BOTTOM, border=15)
 
-        color_name_text = wx.TextCtrl(panel)
-        mainbox.Add(color_name_text, pos=(1, 0), span=(1, 5), flag=wx.EXPAND | wx.LEFT | wx.RIGHT, border=5)
+        self.text = wx.TextCtrl(panel)
+        mainbox.Add(self.text, pos=(1, 0), span=(1, 5), flag=wx.EXPAND | wx.LEFT | wx.RIGHT, border=5)
 
         button_ok = wx.Button(panel, label='Добавить', size=(90, 28), id=wx.ID_OK)
         mainbox.Add(button_ok, pos=(3, 3))
@@ -157,21 +158,21 @@ class MyAskDialog(wx.Dialog):
     def on_add_model(self, e):
         with AdditionDialog(None, title='Добавить марку') as dlg:
             if dlg.ShowModal() == wx.ID_OK:
-                pass
+                db.add_model(dlg.text.GetValue())
             else:
                 print('bye')
 
     def on_add_bodytype(self, e):
         with AdditionDialog(None, title='Добавить модель') as dlg:
             if dlg.ShowModal() == wx.ID_OK:
-                pass
+                db.add_body_type(dlg.text.GetValue())
             else:
                 print('bye')
 
     def on_add_color(self, e):
         with AdditionDialog(None, title='Добавить цвет') as dlg:
             if dlg.ShowModal() == wx.ID_OK:
-                pass
+                db.add_color(dlg.text.GetValue())
             else:
                 print('bye')
 

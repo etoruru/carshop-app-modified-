@@ -220,3 +220,30 @@ def make_order(order_data):
     mycursor.execute(sql_command, order_data)
     connection.commit()
 
+
+def add_color(color):
+    """ adds color to the Color's table in the base """
+    sql_command = "INSERT INTO Color(ColorName) VALUES (%s)"
+    mycursor.execute(sql_command, color)
+    connection.commit()
+
+
+def add_body_type(body_type):
+    """ adds body type to the Body type table in the base """
+    sql_command = "INSERT INTO Body_type(TypeName) VALUES (%s)"
+    mycursor.execute(sql_command, body_type)
+    connection.commit()
+
+
+def add_model(model):
+    """ adds model to the Model's table in the base """
+    sql_command = " INSERT INTO Models(ModelName) VALUES (%s)"
+    mycursor.execute(sql_command, model)
+    connection.commit()
+
+
+if __name__ == '__main__':
+    sql = 'SELECT * FROM Models'
+    mycursor.execute(sql)
+    print(mycursor.fetchall())
+
