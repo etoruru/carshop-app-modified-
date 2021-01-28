@@ -21,9 +21,15 @@ password = 'Myfriend_16'
 db = 'cars_db'
 
 # data for start page
-cars_index = ['№', 'Transmition','mileage', 'PTC', 'price', 'year_of_issue', 'volume_engine', 'color',
-			  'body_type', 'Model']
+cars_index = ['№ ', 'ID', "Коробка передач ", "Пробег ",
+              "№РТС ", "Цена ", "Год выпуска ",
+              "Объем двигателя ", "Цвет ", "Тип кузова ","Модель "]
 cars = {}
+
+orders_index = ['№: ','ID', "Год продажи: ", "Марка: ",
+                "Фамилия клиента: ", "Фамилия продавца: ", "Форма оплаты: "]
+clients_index = ['№','ID', 'Фамилия', 'Имя', 'Серия, номер паспорта', 'Телефон']
+
 
 # data for aboutbox
 program_name = 'CarSearching'

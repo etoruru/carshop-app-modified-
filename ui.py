@@ -5,17 +5,10 @@ import actions
 import wx.lib.mixins.listctrl
 
 
-catal_ind = ['№', 'Model', 'Transmition', 'PTC', 'color', 'volume_engine', 'mileage', 'year_of_issue', 'body_type', 'price']
-catal = {1: ('BMW', 'АКПП', 'DF46577FGTJ', 'black', '1.6', '100 000', '2018', 'внедорожник', '1 600 000'),
-         2: ('Lexus', 'АКПП', 'DF42248857J', 'white', '1.6', '80 000', '2019', 'внедорожник', '1 900 000'),
-         3: ('BMW', 'АКПП', 'DF463465FGTJ', 'black', '1.6', '100 000', '2018', 'седан', '1 400 000')}
 
-ord_index = ['№', 'Дата продажи', '№ Машины', 'Форма оплаты', 'Фамилия клиента', 'Фамилия продавца']
 cl_index = ['№', 'Фамилия', 'Имя', 'Отчество', 'Серия, номер паспорта', 'Телефон', 'Email']
 
-ords = {1: ('10/11/20', '2', 'Безналичная', 'Иванов', 'Петров'),
-        2: ('07/09/20', '1', 'Безналичная', 'Сидоров', 'Петров'),
-        3: ('23/01/20', '3', 'Безналичная', 'Ромашкин', 'Петров')}
+
 
 cl = {}
 
@@ -264,23 +257,23 @@ class Window(wx.Frame):
         self.Close()
 
     def show_catalogue(self, e):
-        """ displays data from catalog """
+        """ displays data from catalog table"""
         name_mode = 'Каталог'
-        catalogue_index, catalogue = catal_ind, actions.get_cars_data()
+        catalogue_index, catalogue = config.cars_index, actions.get_cars_data()
         self.enable_toolbar()
         self.switch_mode(catalogue_index, catalogue, name_mode)
 
     def show_orders(self, e):
-        """ displays data from orders """
+        """ displays data from orders table """
         name_mode = 'Заказы'
-        orders_index, orders = ord_index, ords
+        orders_index, orders = config.orders_index, actions.get_orders_data()
         self.enable_toolbar()
         self.switch_mode(orders_index, orders, name_mode)
 
     def show_clients(self, e):
-        """ displays data from clients """
+        """ displays data from clients table """
         name_mode = 'Клиенты'
-        clients_index, clients = cl_index, cl
+        clients_index, clients = config.clients_index, actions.get_clients_data() 
         self.enable_toolbar()
         self.switch_mode(clients_index, clients, name_mode)
 
@@ -314,8 +307,6 @@ class Window(wx.Frame):
         elif self.name_mode == 'Главная':
             pass
         
-
-
 
     def print_data(self, e):
         pass

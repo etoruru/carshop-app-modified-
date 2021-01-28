@@ -2,21 +2,18 @@ import db
 
 
 def get_cars_data():
+    """ creates a dict, which includes cars from the base, to display it on the Car's tab """
     cars = db.get_all_cars()
     cars_list = []
-    index_cars_list = []
-    for i in cars:
-        index_cars_list.append(display_car(i)[0])
-        cars_list.append(display_car(i)[1:])
+    for car in cars:
+        cars_list.append(display_car(car))
     cars_dict = {i: cars_list[i] for i in range(len(cars_list))}
     return cars_dict
 
 
 
-
-
 def between_markers(text, begin, end):
-    """ returns text, which is between given markersmbegin - marker of begining, end - marker of ending"""
+    """ returns text, which is between given markers, begin - marker of begining, end - marker of ending"""
     if begin in text:
         begin_index = text.find(begin) + len(begin)
     else:
@@ -29,14 +26,9 @@ def between_markers(text, begin, end):
     return text[begin_index: end_index]
 
 
-key = ['№ ', "Коробка передач ", "Пробег ",
-           "№РТС ", "Цена ", "Год выпуска ",
-           "Объем двигателя ", "Цвет ", "Тип кузова ",
-           "Модель "]
-
 def display_car(car_data):
     """ returns normal data of each car, car_data - one line of one car from database"""
-    modified_data = between_markers(str(car_data), '(',')')
+    modified_data = between_markers(str(car_data), '(', ')')
     values = str(modified_data).split(',')
     idColor, idBody_type, idModel = values[-3:]
     color_name = db.get_colorname(int(idColor))
@@ -59,8 +51,19 @@ def create_clauses(idModel, idBody_type, transmition,
     return ', '.join(set_clauses)
 
 
-def modify_str(order_data):
-    modified_data = between_markers(str(order_data), '(',')')
+def get_orders_data():
+    """ creates a dict, which includes cars from the base, to display it on the Car's tab """
+    orders = db.get_all_orders()
+    orders_list = []
+    for order in orders:
+        orders_list.append(modify_orders_data(order))
+    orders_dict = {i: orders_list[i] for i in range(len(orders_list))}
+    return orders_dict
+
+
+def modify_orders_data(order_data):
+    """ returns normal view orders, order_data - line of each order from the base """
+    modified_data = between_markers(str(order_data), '(', ')')
     values = str(modified_data).split(',')
     idCar, idClient, idCustomer, idform_payment = values[-4:]
     idModel = db.get_model_from_tCars(idCar)
@@ -69,11 +72,30 @@ def modify_str(order_data):
     customer_firstName = db.get_customer_firstname(int(idCustomer))
     payment_name = db.get_payment_name(int(idform_payment))
 
-    values = values[:-4] + [models_name, client_firstName, customer_firstName, payment_name] + ['\n']
-    key = ['№: ', "Год продажи: ", "Марка: ",
-           "Фамилия клиента: ", "Фамилия продавца: ", "Форма оплаты: "]
-    return transform_str_to_friendly_form(key, values)
+    values = values[:-4] + [models_name, client_firstName, customer_firstName, payment_name]
+    return values
+
+
+def add_car_tobase():
+    pass
+
+
+def modify_clients_data(client_data):
+    """ returns normal view clients, client_data - line of each client from the base """
+    modified_data = between_markers(str(client_data), '(', ')')
+    values = str(modified_data).split(',')
+    return values
+
+
+def get_clients_data():
+    clients = db.get_all_clients()
+    clients_list = []
+    for client in clients:
+        clients_list.append(modify_clients_data(client))
+    clients_dict = { i: clients_list[i] for i in range(len(clients_list))}
+    return clients_dict
+
 
 
 if __name__ == '__main__':
-    print(get_cars_data()[0])
+    print(db.get_all_clients())
