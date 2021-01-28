@@ -21,8 +21,8 @@ password = 'Myfriend_16'
 db = 'cars_db'
 
 # data for start page
-cars_index = ['№', 'Model', 'Transmition', 'PTC', 'color', 'volume_engine',
-			  'mileage', 'year_of_issue', 'body_type', 'price']
+cars_index = ['№', 'Transmition','mileage', 'PTC', 'price', 'year_of_issue', 'volume_engine', 'color',
+			  'body_type', 'Model']
 cars = {}
 
 # data for aboutbox

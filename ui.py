@@ -1,7 +1,9 @@
 import wx
 import config
 import dialogs
+import actions
 import wx.lib.mixins.listctrl
+
 
 catal_ind = ['№', 'Model', 'Transmition', 'PTC', 'color', 'volume_engine', 'mileage', 'year_of_issue', 'body_type', 'price']
 catal = {1: ('BMW', 'АКПП', 'DF46577FGTJ', 'black', '1.6', '100 000', '2018', 'внедорожник', '1 600 000'),
@@ -103,7 +105,7 @@ class Window(wx.Frame):
         wx.StaticLine(self, size=(1050, 1))
         self.status_bar.SetStatusText('Главная')
 
-    def create_panel(self, data=config.cars, data_index=config.cars_index):
+    def create_panel(self, data=actions.get_cars_data(), data_index=config.cars_index):
         """ creates panel, which includes a table and buttons,
             has default arguements such as data and data_index,
             which takes data from database """
@@ -264,7 +266,7 @@ class Window(wx.Frame):
     def show_catalogue(self, e):
         """ displays data from catalog """
         name_mode = 'Каталог'
-        catalogue_index, catalogue = catal_ind, catal
+        catalogue_index, catalogue = catal_ind, actions.get_cars_data()
         self.enable_toolbar()
         self.switch_mode(catalogue_index, catalogue, name_mode)
 
@@ -340,3 +342,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

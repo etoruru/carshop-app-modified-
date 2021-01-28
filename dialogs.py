@@ -17,6 +17,34 @@ def create_about_dialog():
     wx.adv.AboutBox(info)
 
 
+class AdditionDialog(wx.Dialog):
+    def __init__(self, *args, **kwargs):
+        super(AdditionDialog, self).__init__(*args, **kwargs)
+
+        self.create_dialog()
+
+    def create_dialog(self):
+        panel = wx.Panel(self)
+
+        mainbox = wx.GridBagSizer(4, 4)
+
+        color_name_label = wx.StaticText(panel, label='Введите название:')
+        mainbox.Add(color_name_label, pos=(0, 0), flag=wx.TOP | wx.LEFT | wx.BOTTOM, border=15)
+
+        color_name_text = wx.TextCtrl(panel)
+        mainbox.Add(color_name_text, pos=(1, 0), span=(1, 5), flag=wx.EXPAND | wx.LEFT | wx.RIGHT, border=5)
+
+        button_ok = wx.Button(panel, label='Добавить', size=(90, 28), id=wx.ID_OK)
+        mainbox.Add(button_ok, pos=(3, 3))
+
+        button_cancel = wx.Button(panel, label="Отмена", size=(90,28), id=wx.ID_CANCEL)
+        mainbox.Add(button_cancel, pos=(3, 4), flag=wx.RIGHT|wx.BOTTOM, border=10)
+
+        mainbox.AddGrowableCol(1)
+        mainbox.AddGrowableRow(2)
+        panel.SetSizer(mainbox)
+
+
 class MyAskDialog(wx.Dialog):
     def __init__(self, *args, **kw):
         super(MyAskDialog, self).__init__( *args, **kw)
@@ -51,6 +79,7 @@ class MyAskDialog(wx.Dialog):
 
         add_bodytype_button = wx.Button(pnl, label='+', size=(40, 40), id=2)
         mainbox.Add(add_bodytype_button, pos=(1, 3), flag=wx.LEFT | wx.TOP, border=10)
+        add_bodytype_button.Bind(wx.EVT_BUTTON, self.on_add_bodytype)
 
         # color
         color_label = wx.StaticText(pnl, label='Цвет:')
@@ -62,6 +91,7 @@ class MyAskDialog(wx.Dialog):
 
         add_color_button = wx.Button(pnl, label='+', size=(40, 40), id=3)
         mainbox.Add(add_color_button, pos=(2, 3), flag=wx.LEFT | wx.TOP, border=10)
+        add_color_button.Bind(wx.EVT_BUTTON, self.on_add_color)
 
         # ptc number
         ptcnum_label = wx.StaticText(pnl, label='№ РТС:')
@@ -99,7 +129,7 @@ class MyAskDialog(wx.Dialog):
         mainbox.Add(price_label, pos=(7, 0), flag=wx.TOP | wx.LEFT, border=15)
 
         price_slider = wx.Slider(pnl, value=1000000, minValue=200000, 
-                                 maxValue=400000000, style=wx.SL_HORIZONTAL)
+                                 maxValue=40000000, style=wx.SL_HORIZONTAL)
         price_slider.Bind(wx.EVT_SCROLL, self.on_slider_scroll)
         mainbox.Add(price_slider, pos=(7, 1), span=(1, 2), flag=wx.TOP | wx.LEFT | wx.EXPAND, border=5)
 
@@ -124,7 +154,29 @@ class MyAskDialog(wx.Dialog):
 
         self.price_val.SetLabel(str(val))
 
-    def on_add_model(self):
-        pass
+    def on_add_model(self, e):
+        with AdditionDialog(None, title='Добавить марку') as dlg:
+            if dlg.ShowModal() == wx.ID_OK:
+                pass
+            else:
+                print('bye')
+
+    def on_add_bodytype(self, e):
+        with AdditionDialog(None, title='Добавить модель') as dlg:
+            if dlg.ShowModal() == wx.ID_OK:
+                pass
+            else:
+                print('bye')
+
+    def on_add_color(self, e):
+        with AdditionDialog(None, title='Добавить цвет') as dlg:
+            if dlg.ShowModal() == wx.ID_OK:
+                pass
+            else:
+                print('bye')
+
+
+
+
 
 
