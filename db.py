@@ -14,13 +14,13 @@ mycursor = connection.cursor()
 
 
 def execute(*args, **kwargs):
-    """ override func execute from module pymysql
+    """ override func 'execute' from module pymysql
         as arguement takes sting with sql-request """
     return mycursor.execute(*args, **kwargs)
 
 
 def commit(*args, **kwargs):
-    """ override func commit from module pymysql """
+    """ override func 'commit' from module pymysql """
     return connection.commit(*args, **kwargs)
 
 
@@ -143,6 +143,24 @@ def get_all_clients():
     mycursor.execute(sql_command)
     return mycursor.fetchall()
 
+def get_all_colors():
+    """ returns all colors from the table  'Color' """
+    sql_command = "SELECT ColorName FROM Color"
+    mycursor.execute(sql_command)
+    return mycursor.fetchall()
+
+def get_all_models():
+    """ returns all models from the table 'Model' """
+    sql_command = "SELECT ModelName FROM Models"
+    mycursor.execute(sql_command)
+    return mycursor.fetchall()
+
+def get_all_bodytype():
+    """ returns all body type from the table 'Body type' """
+    sql_command = "SELECT TypeName FROM Body_type"
+    mycursor.execute(sql_command)
+    return mycursor.fetchall()
+
 
 def search_color_in_db(color):
     """ searches car's color in the base, if it is found in the base, function will return its id, else will return empty line """
@@ -242,8 +260,5 @@ def add_model(model):
     connection.commit()
 
 
-if __name__ == '__main__':
-    sql = 'SELECT * FROM Models'
-    mycursor.execute(sql)
-    print(mycursor.fetchall())
+    
 

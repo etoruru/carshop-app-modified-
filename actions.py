@@ -76,8 +76,16 @@ def modify_orders_data(order_data):
     return values
 
 
-def add_car_tobase():
-    pass
+def add_car_tobase(transmition, mileage, PTC, price,
+                   year_issue, engine_capacity, color,
+                   body_type, model):
+    idColor = db.get_idcolor(color)
+    idBody_type = db.get_idBody_type(body_type)
+    idModel = db.get_idModel(model)
+    db.add_car([transmition, mileage, PTC, price,
+                   year_issue, engine_capacity, idColor,
+                   idBody_type, idModel])
+    
 
 
 def modify_clients_data(client_data):
@@ -94,6 +102,16 @@ def get_clients_data():
         clients_list.append(modify_clients_data(client))
     clients_dict = { i: clients_list[i] for i in range(len(clients_list))}
     return clients_dict
+
+def convert_tuple_tolist(data):
+    """ returns list, takes tuple of tuples and converts it to list """
+    ls = []
+    for i in data:
+        ls += list(i)
+    return ls
+   
+
+
 
 
 
